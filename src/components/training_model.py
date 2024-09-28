@@ -45,13 +45,13 @@ class TrainingModel:
             )
             models = {
                 "Linear Regression": LinearRegression(),
-            #    "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
+                "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
+                "Bagging Regressor": BaggingRegressor(),
+                "Decision Tree Regressor": DecisionTreeRegressor(),
+                "Random Forest Regressor": RandomForestRegressor(),
             #    "Lasso Regression": Lasso(),
             #    "Ridge Regression": Ridge(),
-            #    "Bagging Regressor": BaggingRegressor(),
             #    "Extra Trees Regressor": ExtraTreesRegressor(),
-            #    "Random Forest Regressor": RandomForestRegressor(),
-            #    "Decision Tree Regressor": DecisionTreeRegressor(),
             #    "XG Boost Regressor": XGBRegressor(), 
             #    "Gradient Boos Regressor": GradientBoostingRegressor(),
             #    "Adaptive Boost Regressor": AdaBoostRegressor(),
@@ -61,13 +61,23 @@ class TrainingModel:
             #used for hyper tuning
             params={
                "Linear Regression": {},
-            #    "Catagory Boost Regressor": {},
+               "Catagory Boost Regressor": {
+                   'depth': [6,8,10],
+                    'learning_rate': [0.01, 0.05, 0.1],
+                    'iterations': [30, 50, 100]
+               },
+               "Bagging Regressor": {
+                   'n_estimators': [8,16,32,64,128,256]
+               },
+               "Decision Tree Regressor": {
+                   'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+               },
+               "Random Forest Regressor": {
+                   'n_estimators': [8,16,32,64,128,256],
+               },
             #    "Lasso Regression": {},
             #    "Ridge Regression": {},
-            #    "Bagging Regressor": {},
             #    "Extra Trees Regressor": {},
-            #    "Random Forest Regressor": {},
-            #    "Decision Tree Regressor": {},
             #    "XG Boost Regressor": {}, 
             #    "Gradient Boos Regressor": {},
             #    "Adaptive Boost Regressor": {},
@@ -91,7 +101,6 @@ class TrainingModel:
                 logging.error("unable to find any model with 0.5 and above accuracy,exiting")
                 raise CustomException("unable to find any model with 0.5 and above accuracy, exiting")
 
-            logging.info("best model evaluated")
             logging.info("saving trained model objects")
             save_object(
                 file_path=self.training_model_config.trained_model_file_path,
