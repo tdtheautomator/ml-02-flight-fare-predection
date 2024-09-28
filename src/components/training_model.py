@@ -6,14 +6,20 @@ from dataclasses import dataclass
 from src.tools.custom_exception import CustomException
 from src.tools.custom_logger import logging
 from src.tools.common import save_object, evaluate_model_best_param_gsv, evaluate_model_best_param_rsv
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, root_mean_squared_error
+
 
 
 from catboost import CatBoostRegressor
 from sklearn.ensemble import (
     RandomForestRegressor,
 )
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
+from sklearn.linear_model import LinearRegression, Lasso, Ridge
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import RandomForestRegressor,AdaBoostRegressor, ExtraTreesRegressor, BaggingRegressor, GradientBoostingRegressor
+from catboost import CatBoostRegressor
+from xgboost import XGBRegressor
 
 
 @dataclass
@@ -27,11 +33,11 @@ class TrainingModel:
         self.training_model_config=TrainingModelConfig()
 
     def initiate_training_model(self,training_array,test_array):
-        logging.info("initiated training model")
+        logging.info("initiated model training")
         try:
-            logging.info("spliting training and test data")
+            logging.info("assigning training and test data")
 
-            X_training,y_training,X_test,y_test=(
+            X_train,y_train,X_test,y_test=(
                 training_array[:,:-1], #all rows and columns except column
                 training_array[:,-1],  #only last column
                 test_array[:,:-1],     #all rows and columns except column
@@ -39,19 +45,38 @@ class TrainingModel:
             )
             models = {
                 "Linear Regression": LinearRegression(),
-                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
-                "Random Forest": RandomForestRegressor()
-            }
-            #used for hyper tuning
-            params={
-                "Linear Regression":{},
-                "CatBoosting Regressor":{},
-                "Random Forest":{}
+            #    "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
+            #    "Lasso Regression": Lasso(),
+            #    "Ridge Regression": Ridge(),
+            #    "Bagging Regressor": BaggingRegressor(),
+            #    "Extra Trees Regressor": ExtraTreesRegressor(),
+            #    "Random Forest Regressor": RandomForestRegressor(),
+            #    "Decision Tree Regressor": DecisionTreeRegressor(),
+            #    "XG Boost Regressor": XGBRegressor(), 
+            #    "Gradient Boos Regressor": GradientBoostingRegressor(),
+            #    "Adaptive Boost Regressor": AdaBoostRegressor(),
+            #    "K-Neighbors Regressor": KNeighborsRegressor(n_neighbors=5),
             }
             
-            model_report:dict=evaluate_model_best_param_gsv(X_training=X_training,y_training=y_training,X_test=X_test,y_test=y_test,models=models,param=params)
+            #used for hyper tuning
+            params={
+               "Linear Regression": {},
+            #    "Catagory Boost Regressor": {},
+            #    "Lasso Regression": {},
+            #    "Ridge Regression": {},
+            #    "Bagging Regressor": {},
+            #    "Extra Trees Regressor": {},
+            #    "Random Forest Regressor": {},
+            #    "Decision Tree Regressor": {},
+            #    "XG Boost Regressor": {}, 
+            #    "Gradient Boos Regressor": {},
+            #    "Adaptive Boost Regressor": {},
+            #    "K-Neighbors Regressor": {},
+            }
+            
+            model_report:dict=evaluate_model_best_param_gsv(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params)
 
-            logging.info("evaluating best model name and score")
+            logging.info("evaluating best model name and score using")
             best_model_score = max(sorted(model_report.values()))
             best_model_name = list(model_report.keys())[
                 list(model_report.values()).index(best_model_score)
@@ -75,7 +100,7 @@ class TrainingModel:
 
             predicted=best_model.predict(X_test)
             r2_square = r2_score(y_test, predicted)
-            logging.info("completed training model")
+            logging.info("completed model training")
             return r2_square, best_model_name
         
         except Exception as e:

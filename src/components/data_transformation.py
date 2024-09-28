@@ -26,19 +26,18 @@ class DataTransformation:
             logging.info("defining numeric columns")
             numeric_columns = [
                 'duration', 
-                'days_left'
+                'days_left', 
                 ]
-
+            
             logging.info("defining category columns")
             category_columns = [
                 'airline', 
-                'flight', 
                 'source_city', 
                 'departure_time', 
                 'stops', 
                 'arrival_time', 
                 'destination_city', 
-                'class'
+                'class', 
                 ]
             
             logging.info("defining numeric pipeline")
@@ -80,15 +79,15 @@ class DataTransformation:
             logging.info("obtaining preprocessing object")
             preprocessing_obj=self.get_data_transformer_object()
 
-            target_column_name = "price" #update with column to be predicted
+            target_column_name = "price"
             
             logging.info(f"dropping target column {target_column_name} from training dataframe" )
-            input_feature_training_df=training_df.drop(columns=[target_column_name],axis=1)
-            target_feature_training_df=training_df[target_column_name]
+            input_feature_training_df=training_df.drop(columns=[target_column_name],axis=1) #dataframe
+            target_feature_training_df=training_df[target_column_name] #pd series
 
             logging.info(f"dropping target column {target_column_name} from test dataframe" )
-            input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
-            target_feature_test_df=test_df[target_column_name]
+            input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1) #dataframe
+            target_feature_test_df=test_df[target_column_name] #pd series
 
             logging.info("performing preprocessing")
             '''
@@ -96,9 +95,10 @@ class DataTransformation:
             transform() method helps in transforming the data into a form that is more suitable for the model.
             fit_transform() method combines the functionalities of both fit() and transform() methods in one step.
             '''
-            input_feature_training_arr=preprocessing_obj.fit_transform(input_feature_training_df)
-            input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
+            input_feature_training_arr=(preprocessing_obj.fit_transform(input_feature_training_df)).toarray()  #numpy array
+            input_feature_test_arr=(preprocessing_obj.transform(input_feature_test_df)).toarray() #numpy array
 
+           
             logging.info("slicing objects to concatenation along the second axis")
             training_arr = np.c_[input_feature_training_arr, np.array(target_feature_training_df)]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
