@@ -14,4 +14,4 @@ df_final=predict_df.merge(df_output,left_index=True,right_index=True)
 
 df_final["Prediction Variance"] = round(df_final['Predicted Price'] - df_final['Actual Price'],0)
 filepath = f'./outputs/{time.strftime("%Y%m%d_%H%M%S")}_PredectionOutput_TestData.csv'
-df_final.to_csv(filepath)
+df_final.to_csv(filepath,index=False)
