@@ -44,14 +44,14 @@ class TrainingModel:
                 test_array[:,-1]       #only last column
             )
             models = {
-                "Linear Regression": LinearRegression(),
-                "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
-                "Bagging Regressor": BaggingRegressor(),
-                "Decision Tree Regressor": DecisionTreeRegressor(),
-                "Random Forest Regressor": RandomForestRegressor(),
+            #    "Linear Regression": LinearRegression(),
+            #    "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
+            #   "Bagging Regressor": BaggingRegressor(),
+            #    "Decision Tree Regressor": DecisionTreeRegressor(),
+            #    "Random Forest Regressor": RandomForestRegressor(),
             #    "Lasso Regression": Lasso(),
             #    "Ridge Regression": Ridge(),
-            #    "Extra Trees Regressor": ExtraTreesRegressor(),
+                "Extra Trees Regressor": ExtraTreesRegressor(),
             #    "XG Boost Regressor": XGBRegressor(), 
             #    "Gradient Boos Regressor": GradientBoostingRegressor(),
             #    "Adaptive Boost Regressor": AdaBoostRegressor(),
@@ -75,13 +75,16 @@ class TrainingModel:
                "Random Forest Regressor": {
                    'n_estimators': [8,16,32,64,128,256],
                },
-            #    "Lasso Regression": {},
-            #    "Ridge Regression": {},
-            #    "Extra Trees Regressor": {},
-            #    "XG Boost Regressor": {}, 
-            #    "Gradient Boos Regressor": {},
-            #    "Adaptive Boost Regressor": {},
-            #    "K-Neighbors Regressor": {},
+                "Lasso Regression": {},
+                "Ridge Regression": {},
+                "Extra Trees Regressor": {
+                    'n_estimators': [256],
+                    'criterion':['poisson'],
+                },
+                "XG Boost Regressor": {}, 
+                "Gradient Boos Regressor": {},
+                "Adaptive Boost Regressor": {},
+                "K-Neighbors Regressor": {},
             }
             
             model_report:dict=evaluate_model_best_param_gsv(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,models=models,params=params)
