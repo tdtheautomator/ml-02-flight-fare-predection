@@ -44,14 +44,14 @@ class TrainingModel:
                 test_array[:,-1]       #only last column
             )
             models = {
-            #    "Linear Regression": LinearRegression(),
-            #    "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
-            #   "Bagging Regressor": BaggingRegressor(),
-            #    "Decision Tree Regressor": DecisionTreeRegressor(),
-            #    "Random Forest Regressor": RandomForestRegressor(),
+               "Linear Regression": LinearRegression(),
+               "Catagory Boost Regressor": CatBoostRegressor(verbose=False),
+               "Bagging Regressor": BaggingRegressor(),
+               "Decision Tree Regressor": DecisionTreeRegressor(),
+               "Random Forest Regressor": RandomForestRegressor(),
+                "Extra Trees Regressor": ExtraTreesRegressor(),
             #    "Lasso Regression": Lasso(),
             #    "Ridge Regression": Ridge(),
-                "Extra Trees Regressor": ExtraTreesRegressor(),
             #    "XG Boost Regressor": XGBRegressor(), 
             #    "Gradient Boos Regressor": GradientBoostingRegressor(),
             #    "Adaptive Boost Regressor": AdaBoostRegressor(),
@@ -75,12 +75,12 @@ class TrainingModel:
                "Random Forest Regressor": {
                    'n_estimators': [8,16,32,64,128,256],
                },
-                "Lasso Regression": {},
-                "Ridge Regression": {},
-                "Extra Trees Regressor": {
+               "Extra Trees Regressor": {
                     'n_estimators': [256],
                     'criterion':['poisson'],
                 },
+                "Lasso Regression": {},
+                "Ridge Regression": {},
                 "XG Boost Regressor": {}, 
                 "Gradient Boos Regressor": {},
                 "Adaptive Boost Regressor": {},
