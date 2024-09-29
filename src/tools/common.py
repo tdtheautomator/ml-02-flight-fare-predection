@@ -122,7 +122,7 @@ def evaluate_model_best_param_rsv(X_train, y_train,X_test,y_test,models,params):
         performance_metrics_report ={'Model Name': m_name, 'MAE': mae,'MSE': mse, 'RMSE': rmse, 'R2 Score': r2,'Duration': dur}
         df_ModelPerformance = pd.DataFrame(performance_metrics_report)
         df_ModelPerformance.sort_values(['RMSE','R2 Score'], ascending=[True, False], inplace=True)
-        filepath = f'../outputs/{time.strftime("%Y%m%d_%H%M%S")}_ModelPerformance.csv'
+        filepath = f'./outputs/{time.strftime("%Y%m%d_%H%M%S")}_ModelPerformance.csv'
         df_ModelPerformance.to_csv(filepath)
         return report
     except Exception as e:
