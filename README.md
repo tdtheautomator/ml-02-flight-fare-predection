@@ -7,6 +7,10 @@ Dataset Shape : Rows : 300153 , Columns : 10<br />
 - training dataset is 80%
 
 ## Models Used
+Model training is performed using multiple regression, ensemble, tree techniques. Models are configured with hyper tuning parameters and used GridSearch to identify best paramaeters<br />
+Model with lowest mean square error and highest R2 Score is selected for final training<br />
+Outputs for ecnoding and model training is saved in a pickle file<br />
+Once the model is trained only trained_model.pkl file is needed to perform predictions<br />
 
 - Linear Regression
 - Catagory Boost Regressor
@@ -43,3 +47,12 @@ python ./test/predict_test_data.py
 ```
 python ./test/predict_new_data.py
 ```
+
+## Notes
+- Detailed logging is available under ./logs
+- Output files are saved in ./outputs
+
+## Known Issues
+ - Model performnace can be further  fine tuned by converting some columns from categorical to numerica. example : stops column can be converted to numerical.
+ - Missing Handler for unwanted columns. example duration is not needed as an input and can use stops<br />
+ - Data for certain predections is highly skewed, further tuning is needed<br />
