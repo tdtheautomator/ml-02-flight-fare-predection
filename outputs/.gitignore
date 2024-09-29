@@ -1,2 +1,5 @@
 .pkl
 *.pkl
+raw_data.csv
+test_data.csv
+training_data.csv
