@@ -11,7 +11,7 @@ df_final=new_df.merge(df_output,left_index=True,right_index=True)
 
 filepath = f'./outputs/{time.strftime("%Y%m%d_%H%M%S")}_PredectionOutput_NewData.csv'
 df_final.to_csv(filepath)
-print("-*40)")
+print("-*40")
 print("Predection Results\n")
 print(df_final)
 print("-*40")
